@@ -6,10 +6,10 @@ meta:
 	ADDON_URL = http://github.com/bakercp/ofxLibsndfile
 
 linux:
-	ADDON_PKG_CONFIG_LIBRARIES = libsndfile
+	ADDON_PKG_CONFIG_LIBRARIES = sndfile
 linux64:
-	ADDON_PKG_CONFIG_LIBRARIES = libsndfile
+	ADDON_PKG_CONFIG_LIBRARIES = sndfile
 linuxarmv6l:
-	ADDON_PKG_CONFIG_LIBRARIES = libsndfile						
+	ADDON_PKG_CONFIG_LIBRARIES = sndfile						
 linuxarmv7l:
-	ADDON_PKG_CONFIG_LIBRARIES = libsndfile
+	ADDON_PKG_CONFIG_LIBRARIES = sndfile
