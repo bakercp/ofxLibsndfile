@@ -7,3 +7,9 @@ meta:
 
 linux:
 	ADDON_PKG_CONFIG_LIBRARIES = libsndfile
+linux64:
+	ADDON_PKG_CONFIG_LIBRARIES = libsndfile
+linuxarmv6l:
+	ADDON_PKG_CONFIG_LIBRARIES = libsndfile						
+linuxarmv7l:
+	ADDON_PKG_CONFIG_LIBRARIES = libsndfile
