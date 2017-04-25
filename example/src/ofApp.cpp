@@ -33,13 +33,14 @@ void ofApp::draw()
 void ofApp::readFile()
 {
     // Create a file path.
-    std::string filePath = ofToDataPath("test.wav", true);
+    std::string filePath = ofToDataPath("test-8-bit.wav", true);
 
     // Load the file into a handle.
     SndfileHandle soundFile(filePath);
 
     // Query parameters.
     ofLogNotice("ofApp::readFile") << "Opened file " << filePath;
+    ofLogNotice("ofApp::readFile") << "\t     Format:" << soundFile.format();
     ofLogNotice("ofApp::readFile") << "\tSample Rate:" << soundFile.samplerate();
     ofLogNotice("ofApp::readFile") << "\t   # Frames:" << soundFile.frames();
     ofLogNotice("ofApp::readFile") << "\t # Channels:" << soundFile.channels();
@@ -53,13 +54,21 @@ void ofApp::readFile()
     ofLogNotice("ofApp::readFile") << "\tDuration MS:" << durationMillis;
     ofLogNotice("ofApp::readFile") << "\tDuration uS:" << durationMicros;
 
-    // Create a buffer with the
-    std::vector<float> samples(numSamples, 0.0f);
+    // Create a buffer with the right number of samples.
+    std::vector<float> sampleBuffer(numSamples, 0.0f);
 
-    auto numRead = soundFile.read(samples.data(), samples.size());
+    // Read the samples into the memory buffer.
+    // libsndfile will automatically normalize data when reading into float
+    // buffers. See this link http://www.mega-nerd.com/libsndfile/api.html#note1
+    auto numRead = soundFile.read(sampleBuffer.data(), sampleBuffer.size());
 
     ofLogNotice("ofApp::readFile") << "Loaded file with " << numRead << " samples.";
 
+    // Find the minimum and maximum values in the sound file.
+    auto result = std::minmax_element(sampleBuffer.begin(), sampleBuffer.end());
+
+    ofLogNotice("ofApp::readFile") << "Min. amplitude is " << *result.first << " at sample [" << (result.first-sampleBuffer.begin()) << "].";
+    ofLogNotice("ofApp::readFile") << "Max. amplitude is " << *result.second << " at sample [" << (result.second-sampleBuffer.begin()) << "].";
 }
 
 
