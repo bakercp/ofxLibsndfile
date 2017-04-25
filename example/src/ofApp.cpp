@@ -94,7 +94,7 @@ void ofApp::writeFile()
     int numChannels = 2;
 
     // Choose a sample rate in Hz.
-    int sampleRate = 11025;
+    int sampleRate = 44100;
 
     // Create a handle to a sound file. The SndFileHandle type manages memory by
     // keeping an internal reference count. So if you copy this file by
@@ -115,7 +115,7 @@ void ofApp::writeFile()
     int numFrames = numSeconds * sampleRate;
     int numSamples = numFrames * numChannels;
 
-    float amplitude = 0.75;
+    float amplitude = 1.0;
 
     float leftSineFrequency = 344.0;
     float rightSineFrequency = 466.0;
@@ -142,7 +142,7 @@ void ofApp::writeFile()
     for (int k = 0; k < numFrames; ++k)
     {
         // Calculate the angle
-        float angle = k / float(sampleRate) * glm::two_pi<float>();
+        float angle = k / float(sampleRate) * PI;
 
         // Right channel.
         buffer[numChannels * k    ] = amplitude * sin (leftSineFrequency  * angle);
