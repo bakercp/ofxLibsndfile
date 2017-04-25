@@ -12,6 +12,7 @@ public:
     void update() override;
     void draw() override;
 
+    void readFile();
     void writeFile();
 
     ofSoundPlayer player;

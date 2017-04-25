@@ -6,7 +6,10 @@ void ofApp::setup()
     // Make a new wave file.
     writeFile();
 
-    // Try to load the file we just wrote.
+    // Try reading it to extract the raw waveform.
+    readFile();
+
+    // Try to load the file we just wrote into a sound player.
     player.load("test.wav");
 
     // Try to play the file we jsut loaded.
@@ -25,6 +28,40 @@ void ofApp::update()
 void ofApp::draw()
 {
 }
+
+
+void ofApp::readFile()
+{
+    // Create a file path.
+    std::string filePath = ofToDataPath("test.wav", true);
+
+    // Load the file into a handle.
+    SndfileHandle soundFile(filePath);
+
+    // Query parameters.
+    ofLogNotice("ofApp::readFile") << "Opened file " << filePath;
+    ofLogNotice("ofApp::readFile") << "\tSample Rate:" << soundFile.samplerate();
+    ofLogNotice("ofApp::readFile") << "\t   # Frames:" << soundFile.frames();
+    ofLogNotice("ofApp::readFile") << "\t # Channels:" << soundFile.channels();
+
+    // Calculate duration.
+    std::size_t numSamples = soundFile.channels() * soundFile.frames();
+    uint64_t durationMicros = (1000000 * soundFile.frames()) / soundFile.samplerate();
+    float durationMillis = durationMicros / 1000.0f;
+
+    ofLogNotice("ofApp::readFile") << "\t  # Samples:" << numSamples;
+    ofLogNotice("ofApp::readFile") << "\tDuration MS:" << durationMillis;
+    ofLogNotice("ofApp::readFile") << "\tDuration uS:" << durationMicros;
+
+    // Create a buffer with the
+    std::vector<float> samples(numSamples, 0.0f);
+
+    auto numRead = soundFile.read(samples.data(), samples.size());
+
+    ofLogNotice("ofApp::readFile") << "Loaded file with " << numRead << " samples.";
+
+}
+
 
 void ofApp::writeFile()
 {
@@ -66,7 +103,8 @@ void ofApp::writeFile()
 
     // First choose some parameters for our sine wave.
     int numSeconds = 4;
-    int numSamples = numSeconds * sampleRate;
+    int numFrames = numSeconds * sampleRate;
+    int numSamples = numFrames * numChannels;
 
     float amplitude = 0.75;
 
@@ -89,10 +127,10 @@ void ofApp::writeFile()
     //
     // The buffer can be anny array-like type with a pointer and a known length
     // (e.g. std::vector, std::array and a raw C++ or C array would all work).
-    std::vector<float> buffer(numChannels * numSamples, 0);
+    std::vector<float> buffer(numSamples, 0);
 
     // Fill the buffer with the interleved sine wave.
-    for (std::size_t k = 0; k < numSamples; ++k)
+    for (std::size_t k = 0; k < numFrames; ++k)
     {
         // Calculate the angle
         float angle = k / float(sampleRate) * glm::two_pi<float>();
