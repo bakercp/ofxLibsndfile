@@ -139,7 +139,7 @@ void ofApp::writeFile()
     std::vector<float> buffer(numSamples, 0);
 
     // Fill the buffer with the interleved sine wave.
-    for (std::size_t k = 0; k < numFrames; ++k)
+    for (int k = 0; k < numFrames; ++k)
     {
         // Calculate the angle
         float angle = k / float(sampleRate) * glm::two_pi<float>();
