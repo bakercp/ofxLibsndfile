@@ -33,7 +33,7 @@ void ofApp::draw()
 void ofApp::readFile()
 {
     // Create a file path.
-    std::string filePath = ofToDataPath("test-8-bit.wav", true);
+    std::string filePath = ofToDataPath("test.wav", true);
 
     // Load the file into a handle.
     SndfileHandle soundFile(filePath);
