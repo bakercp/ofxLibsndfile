@@ -10,6 +10,6 @@ linux:
 linux64:
 	ADDON_PKG_CONFIG_LIBRARIES = sndfile
 linuxarmv6l:
-	ADDON_PKG_CONFIG_LIBRARIES = sndfile						
+	ADDON_PKG_CONFIG_LIBRARIES = sndfile
 linuxarmv7l:
 	ADDON_PKG_CONFIG_LIBRARIES = sndfile
